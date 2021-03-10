@@ -1,0 +1,102 @@
+body {
+    background-color: grey;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.calculator-face {
+    display: grid;
+    max-width: 375px;
+    min-height: 500px;
+    margin: 2rem auto;
+    padding: 20px;
+    grid-gap: 10px;
+    border: 2px solid black;
+    border-radius: 25px;
+    background-color: tan;
+    grid-template-areas:
+    'display display display display'
+    'clear clear delete delete'
+    '1 2 3 plus'
+    '4 5 6 divide'
+    '7 8 9 minus'
+    'period 0 equal mult'
+}
+button{
+    border-radius: 25px;
+    border-color: transparent;
+    font-size: medium;
+}
+button:hover{
+    box-shadow: 3px 3px;
+    border-color: black;
+    background-color: azure;
+}
+#display {
+    grid-area:display;
+    background-color: azure;
+    font-size: large;
+    text-align: right;
+    border-radius: 25px;
+    padding: 50px 10px 50px;
+    max-width: 100%;
+}
+
+#clear{ 
+    grid-area: clear; 
+    background-color: rgba(93, 110, 244, 1);
+}
+
+#delete{ 
+    grid-area: delete; 
+    background-color: rgba(255, 87, 87, 1);
+}
+
+#1 {
+    grid-area: 1;
+}
+#2 {
+    grid-area: 2;
+}
+#3 {
+    grid-area: 3;
+}
+#4{
+    grid-area: 4;
+}
+#5 {
+    grid-area: 5;
+}
+#6 {
+    grid-area: 6;
+}
+#7 {
+    grid-area: 7;
+}
+#8 {
+    grid-area: 8;
+}
+#9 {
+    grid-area: 9;
+}
+
+#period {
+    grid-area: period;
+}
+#plus {
+    grid-area: plus;
+}
+#divide {
+    grid-area: divide;
+}
+#minus {
+    grid-area: minus;
+}
+#multiply {
+    grid-area: mult;
+}
+#equal {
+    grid-area: equal;
+}
+
+
+
