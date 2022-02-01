@@ -1,81 +1,89 @@
-function operate (x,y,operator) {
-
-    if (operator == ("plus")) {
-       return  x + y
-    } 
-
-    if (operator == ("minus")) {
-       return  x - y ;
-    } 
-
-    if (operator == ("multiply")) {
-       return x * y
+//Create the object of math to perform operations 
+const math = (() => {                  
+    const add = (x,y) => x + y;
+    const subtract = (x,y) => x - y;
+    const divide = (x,y) => x / y;
+    const times = (x,y) => x  * y;
+    return {
+        add,
+        subtract,
+        divide,
+        times
     }
-    
-    if (operator == ("divide")){
-        return x / y
-    }
-    
+})()
+
+
+//Get the contents of the display
+let getDisplay = () => document.querySelector('.calc-face'); 
+
+
+
+let x = null;
+let y = null;
+let operator = null;
+
+
+
+function operate ()  {
+    console.log("operated");
+    ret = math[operator](x,y);
+    x = null;
+    y = null;
+    operator = null;
+    return ret;   
 }
 
-const buttons = document.querySelectorAll('button');
-const display = document.getElementById('display');
-const operands = [];
+const btns = document.querySelectorAll('.btn');
 
-buttons.forEach(button => {
-    button.addEventListener('click',e => {
-        const deleted = display.innerText.substring(0,display.innerText.length - 1);
-
-        if(e.target.id == "clear") {
-            operands.length = 0;
-            return display.innerText = "";
-        }
-        
-        if(e.target.id == "delete") {
-            return display.innerText = deleted;
-        }
-        
-        if (e.target.id == "period" && display.innerText.indexOf(".") != -1) {return deleted}
-        if (e.target.id == "period") {return display.innerText += "."}
-                
-        if (e.target.className == "operator") {
-            operands.push(Number(display.innerText),e.target.id)
-            return display.innerText = "";
-        }
-        
-        let operator = null;
-        
-        if (e.target.id == "equal") {
-            
-            operands.push(Number(display.innerText))
-            let total  = operands.reduce((total,ele) => {
-                console.log(total)
-                console.log(ele)
-                console.log(" ")
-                
-                if(typeof(ele) == 'string') {
-                    operator = ele;
-                }
-                if (typeof(ele) == 'number' && operator != null){
-                    total = operate(total,ele,operator)
-                }
-                
-                return total;
-            },operands[0])
-            display.innerText = total;
-            operands.length = 0;
-            return 
-        }
-        
-       
-        display.innerText += (e.target.innerText)
-        
+//Set an event listener to get user input and consequently set the display
+btns.forEach(btn => {
+    btn.addEventListener('click',e => {
+        // console.log(e.target.id)
+        console.log(isOperator(e.target));
+        setDisplay(e.target)
     })
 })
 
 
+function setDisplay (input,display = getDisplay()) {
+    if(deleteBtn(input)) {
+        display.innerText -= display.innerText[display.innerText.length - 1]
+    }
+    
+    if (isZero(display)) {
+        display.innerText = input.innerText
+        return
+    }
+    
+    if (isOperator(input)) {
+        calcLog(display,input)
+    } else {
+        display.innerText += input.innerText
+    }
 
+}
 
+function calcLog(display,input) {
+    //if x is null then that means
+    if (!x) {
+        x = +display.innerText;
+        display.innerText = '0';
+        operator = input.id;
+    }else {
+        y = +display.innerText;
+        display.innerText = operate();
+    }
+}
 
+const isOperator = (input) => {
+    const arr = Array.from(input.classList)
 
+    if (arr.includes('operator')) {
+        return true
+    }
+    return false
+}
 
+const deleteBtn = (input) =>  input.id === "delete" ? true : false
+
+const isZero = (display) => display.innerText == '0' ? true : false
